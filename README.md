@@ -637,11 +637,8 @@ uv sync
 ### Optional Dependencies
 
 ```bash
-# For development
+# For development (pytest, ruff)
 pip install -e ".[dev]"
-
-# For production (FastAPI, Redis)
-pip install -e ".[production]"
 ```
 
 ---
@@ -861,7 +858,7 @@ Currently, location is hashed as-is. Future improvements should:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-The production dependencies (`fastapi`, `redis`, `uvicorn`) are included in https://github.com/lcsig/customer_churn_api.
+The production API implementation is available at: https://github.com/lcsig/customer_churn_api
 
 ### MLflow Deployment
 

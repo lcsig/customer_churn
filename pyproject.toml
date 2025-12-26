@@ -41,12 +41,6 @@ dev = [
     "pytest>=7.0.0",
     "ruff>=0.1.0",
 ]
-production = [
-    "redis>=4.5.0",
-    "fastapi>=0.95.0",
-    "uvicorn>=0.21.0",
-    "pydantic>=1.10.0",
-]
 
 [tool.setuptools.packages.find]
 where = ["."]
