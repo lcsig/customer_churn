@@ -12,11 +12,12 @@ from __future__ import annotations
 from typing import Any, Dict, Optional
 
 import numpy as np
-from models.base_model import BaseModel
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import LinearSVC
+
+from ml_training.models.base_model import BaseModel
 
 
 class LinearSVMModel(BaseModel):

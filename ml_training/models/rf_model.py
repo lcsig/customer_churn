@@ -3,8 +3,9 @@ Random Forest Model Implementation
 """
 
 from imblearn.ensemble import BalancedRandomForestClassifier
-from models.base_model import BaseModel
 from sklearn.ensemble import RandomForestClassifier
+
+from ml_training.models.base_model import BaseModel
 
 
 class RandomForestModel(BaseModel):

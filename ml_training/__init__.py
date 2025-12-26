@@ -8,9 +8,9 @@ This package provides modular classes for:
 - Production-ready feature store pattern (feature_store)
 """
 
-from features import BaseFeatureGenerator, FeatureSet1
-from mlflow_trainer import MLFlowTrainer
-from models import (
+from ml_training.features import BaseFeatureGenerator, FeatureSet1, FeatureSet2
+from ml_training.mlflow_trainer import MLFlowTrainer
+from ml_training.models import (
     BaseModel,
     CatBoostModel,
     LGBMModel,
@@ -23,6 +23,7 @@ __all__ = [
     # Features
     "BaseFeatureGenerator",
     "FeatureSet1",
+    "FeatureSet2",
     # Models
     "BaseModel",
     "LGBMModel",

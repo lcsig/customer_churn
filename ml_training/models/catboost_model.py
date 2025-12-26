@@ -3,7 +3,8 @@ CatBoost Model Implementation
 """
 
 from catboost import CatBoostClassifier
-from models.base_model import BaseModel
+
+from ml_training.models.base_model import BaseModel
 
 
 class CatBoostModel(BaseModel):

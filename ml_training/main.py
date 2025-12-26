@@ -12,7 +12,14 @@ from datetime import datetime
 from features import FeatureSet2
 from mlflow_tracking_uri import get_mlflow_tracking_uri
 from mlflow_trainer import MLFlowTrainer
-from models import CatBoostModel, LGBMModel, LinearSVMModel, RandomForestModel, XGBoostModel
+from models import (
+    CatBoostModel,
+    LGBMModel,
+    LinearSVMModel,
+    RandomForestModel,
+    XGBoostModel,
+    XGBoostSMOTEModel,
+)
 
 ENABLE_MLFLOW = True
 
@@ -29,7 +36,7 @@ def main():
     print(f"Date range: {feature_gen.df['ts_dt'].min()} to {feature_gen.df['ts_dt'].max()}")
 
     # Choose which model to use (LGBMModel, RandomForestModel, or XGBoostModel)
-    model_class = LinearSVMModel
+    model_class = XGBoostSMOTEModel
     print(f"Selected model: {model_class.__name__}")
 
     tracking_uri = get_mlflow_tracking_uri()
@@ -77,7 +84,7 @@ def main():
             "min_samples_split": [2, 5, 10],
             "min_samples_leaf": [1, 2, 3, 5],
         }
-    elif model_class == XGBoostModel:
+    elif model_class == XGBoostModel or model_class == XGBoostSMOTEModel:
         param_grid = {
             "n_estimators": [50, 100, 200],
             "max_depth": [3, 4, 5],

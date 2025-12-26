@@ -8,7 +8,8 @@ from datetime import timedelta
 
 import numpy as np
 import pandas as pd
-from features.base_features import BaseFeatureGenerator
+
+from ml_training.features.base_features import BaseFeatureGenerator
 
 
 class FeatureSet1(BaseFeatureGenerator):

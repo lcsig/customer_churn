@@ -7,7 +7,8 @@ Extends FeatureSet1 with additional churn prediction features
 import hashlib
 
 import pandas as pd
-from features.feature_set1 import FeatureSet1
+
+from ml_training.features.feature_set1 import FeatureSet1
 
 
 class FeatureSet2(FeatureSet1):

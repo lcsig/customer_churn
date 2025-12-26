@@ -3,7 +3,8 @@ LightGBM Model Implementation
 """
 
 from lightgbm import LGBMClassifier
-from models.base_model import BaseModel
+
+from ml_training.models.base_model import BaseModel
 
 
 class LGBMModel(BaseModel):

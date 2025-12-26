@@ -10,10 +10,11 @@ from datetime import timedelta
 import mlflow
 import mlflow.sklearn
 import numpy as np
-from features.base_features import BaseFeatureGenerator
-from models.base_model import BaseModel
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from sklearn.model_selection import ParameterGrid
+
+from ml_training.features.base_features import BaseFeatureGenerator
+from ml_training.models.base_model import BaseModel
 
 
 class MLFlowTrainer:

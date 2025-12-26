@@ -1,28 +1,32 @@
 """
-XGBoost Model Implementation
+XGBoost Model Implementation with SMOTE for Class Balancing
 """
 
+from imblearn.over_sampling import SMOTE
 from xgboost import XGBClassifier
 
 from ml_training.models.base_model import BaseModel
 
 
-class XGBoostModel(BaseModel):
+class XGBoostSMOTEModel(BaseModel):
     """
-    XGBoost classifier implementation.
+    XGBoost classifier with SMOTE oversampling for class imbalance.
     """
 
-    def __init__(self, params=None, random_state=42, use_class_weights=True):
+    def __init__(self, params=None, random_state=42, use_class_weights=False, smote_params=None):
         """
-        Initialize XGBoost model.
+        Initialize XGBoost model with SMOTE.
 
         Args:
             params: Dictionary of model parameters
             random_state: Random state for reproducibility
-            use_class_weights: Whether to use balanced class weights (default: True)
+            use_class_weights: Whether to use balanced class weights (default: False)
+            smote_params: Dictionary of SMOTE parameters (optional)
         """
-        super().__init__(params, random_state, use_class_weights)
+        super().__init__(params, random_state, False)
+        self.smote_params = smote_params if smote_params is not None else {}
         self._initialize_model()
+        self._initialize_smote()
 
     def _initialize_model(self):
         """Initialize the XGBoost model with parameters"""
@@ -37,20 +41,24 @@ class XGBoostModel(BaseModel):
         }
 
         # Use all CPU cores by default (unless user overrides)
-        # XGBoost supports `n_jobs` (and older alias `nthread`).
         if "n_jobs" not in self.params and "nthread" not in self.params:
             default_params["n_jobs"] = -1
-
-        # Add scale_pos_weight if enabled (ratio of negative to positive class)
-        if self.use_class_weights and "scale_pos_weight" not in self.params:
-            default_params["scale_pos_weight"] = 36  # 7 churners vs 255 non-churners
 
         default_params.update(self.params)
         self.model = XGBClassifier(**default_params)
 
+    def _initialize_smote(self):
+        """Initialize SMOTE with parameters"""
+        default_smote_params = {
+            "random_state": self.random_state,
+            "sampling_strategy": "auto",  # Resample minority class to match majority
+        }
+        default_smote_params.update(self.smote_params)
+        self.smote = SMOTE(**default_smote_params)
+
     def fit(self, X, y):
         """
-        Train the XGBoost model.
+        Train the XGBoost model with SMOTE-resampled data.
 
         Args:
             X: Feature matrix
@@ -59,7 +67,9 @@ class XGBoostModel(BaseModel):
         Returns:
             self
         """
-        self.model.fit(X, y)
+        # Apply SMOTE to balance the classes
+        X_resampled, y_resampled = self.smote.fit_resample(X, y)
+        self.model.fit(X_resampled, y_resampled)
         return self
 
     def predict(self, X):
