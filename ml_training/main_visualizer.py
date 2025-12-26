@@ -16,7 +16,7 @@ import pandas as pd
 from features import FeatureSet1
 from mlflow_tracking_uri import get_mlflow_tracking_uri
 from mlflow_trainer import MLFlowTrainer
-from models import CatBoostModel, LGBMModel, RandomForestModel, XGBoostModel
+from models import CatBoostModel, LGBMModel, LinearSVMModel, RandomForestModel, XGBoostModel
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
@@ -157,6 +157,13 @@ def main():
             "depth": 5,
             "learning_rate": 0.05,
             "min_data_in_leaf": 3,
+        }
+    elif model_class == LinearSVMModel:
+        best_params = {
+            "C": 1.0,
+            "calibration_method": "sigmoid",
+            "calibration_cv": 3,
+            "max_iter": 20000,
         }
     else:
         best_params = {}

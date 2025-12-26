@@ -9,10 +9,10 @@ This script demonstrates how to use the ABC-based ML training pipeline:
 
 from datetime import datetime
 
-from features import FeatureSet1
+from features import FeatureSet2
 from mlflow_tracking_uri import get_mlflow_tracking_uri
 from mlflow_trainer import MLFlowTrainer
-from models import CatBoostModel, LGBMModel, RandomForestModel, XGBoostModel
+from models import CatBoostModel, LGBMModel, LinearSVMModel, RandomForestModel, XGBoostModel
 
 ENABLE_MLFLOW = True
 
@@ -21,7 +21,7 @@ def main():
     """Main execution function"""
 
     data_path = "data_clean_process/customer_churn_cleaned.json"
-    feature_gen = FeatureSet1(data_path)
+    feature_gen = FeatureSet2(data_path)
     feature_gen.load_data()
 
     print(f"Data loaded: {len(feature_gen.df)} events")
@@ -29,7 +29,7 @@ def main():
     print(f"Date range: {feature_gen.df['ts_dt'].min()} to {feature_gen.df['ts_dt'].max()}")
 
     # Choose which model to use (LGBMModel, RandomForestModel, or XGBoostModel)
-    model_class = CatBoostModel
+    model_class = LinearSVMModel
     print(f"Selected model: {model_class.__name__}")
 
     tracking_uri = get_mlflow_tracking_uri()
@@ -90,6 +90,21 @@ def main():
             "depth": [3, 4, 5],
             "learning_rate": [0.01, 0.05],
             "min_data_in_leaf": [1, 2, 3, 5],
+        }
+    elif model_class == LinearSVMModel:
+        param_grid = {
+            # Linear SVMs are sensitive to scaling (handled in the model pipeline)
+            # so the most important knob is regularization strength C.
+            "C": [0.01, 0.1, 1.0, 10.0, 100.0],
+            # Solver formulation: dual=False is often faster when n_samples > n_features,
+            # but we don't want to assume that, so we try both.
+            "dual": [True, False],
+            # Convergence / stability knobs
+            "tol": [1e-4, 1e-3],
+            "max_iter": [20000],
+            # Calibration gives us predict_proba() for threshold search
+            "calibration_method": ["sigmoid", "isotonic"],
+            "calibration_cv": [3],
         }
     else:
         param_grid = {}

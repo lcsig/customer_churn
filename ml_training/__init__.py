@@ -10,7 +10,14 @@ This package provides modular classes for:
 
 from features import BaseFeatureGenerator, FeatureSet1
 from mlflow_trainer import MLFlowTrainer
-from models import BaseModel, LGBMModel, RandomForestModel, XGBoostModel
+from models import (
+    BaseModel,
+    CatBoostModel,
+    LGBMModel,
+    LinearSVMModel,
+    RandomForestModel,
+    XGBoostModel,
+)
 
 __all__ = [
     # Features
@@ -21,6 +28,8 @@ __all__ = [
     "LGBMModel",
     "RandomForestModel",
     "XGBoostModel",
+    "CatBoostModel",
+    "LinearSVMModel",
     # Trainer
     "MLFlowTrainer",
 ]
