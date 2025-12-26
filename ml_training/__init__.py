@@ -17,6 +17,7 @@ from ml_training.models import (
     LinearSVMModel,
     RandomForestModel,
     XGBoostModel,
+    XGBoostSMOTEModel,
 )
 
 __all__ = [
@@ -29,6 +30,7 @@ __all__ = [
     "LGBMModel",
     "RandomForestModel",
     "XGBoostModel",
+    "XGBoostSMOTEModel",
     "CatBoostModel",
     "LinearSVMModel",
     # Trainer

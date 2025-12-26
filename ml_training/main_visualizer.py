@@ -16,7 +16,14 @@ import pandas as pd
 from features import FeatureSet1
 from mlflow_tracking_uri import get_mlflow_tracking_uri
 from mlflow_trainer import MLFlowTrainer
-from models import CatBoostModel, LGBMModel, LinearSVMModel, RandomForestModel, XGBoostModel
+from models import (
+    CatBoostModel,
+    LGBMModel,
+    LinearSVMModel,
+    RandomForestModel,
+    XGBoostModel,
+    XGBoostSMOTEModel,
+)
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
@@ -128,7 +135,7 @@ def main():
     print(f"Dataset: {len(feature_gen.df)} events, {feature_gen.df['userId'].nunique()} users")
 
     # Define model and parameters
-    model_class = RandomForestModel
+    model_class = XGBoostSMOTEModel
 
     if model_class == LGBMModel:
         best_params = {
@@ -144,7 +151,7 @@ def main():
             "min_samples_split": 10,
             "min_samples_leaf": 1,
         }
-    elif model_class == XGBoostModel:
+    elif model_class == XGBoostModel or model_class == XGBoostSMOTEModel:
         best_params = {
             "n_estimators": 200,
             "max_depth": 5,
