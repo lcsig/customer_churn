@@ -5,7 +5,6 @@ This package provides modular classes for:
 - Feature engineering from customer event logs (features package)
 - Model training with multiple algorithms (models package)
 - Time-based validation with MLFlow tracking (mlflow_trainer)
-- Production-ready feature store pattern (feature_store)
 """
 
 from ml_training.features import BaseFeatureGenerator, FeatureSet1, FeatureSet2
